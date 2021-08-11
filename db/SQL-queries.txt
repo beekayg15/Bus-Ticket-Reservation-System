@@ -1,0 +1,1110 @@
+Create database BTRS;
+Use BTRS;
+create table customer(customer_id int primary key, cname varchar(30), age int, gender varchar(1),
+city varchar(20), email varchar(35), pass varchar(20), phone varchar(10));
+create table booking(booking_id int primary key, booking_date date, no_passengers int,
+customer_id int, bus_id int);
+create table ticket(booking_id int, ticket_id int primary key, seat_no int, fare decimal(6,2));
+create table passenger(ticket_id int, p_id int primary key, p_name varchar(30), age int, gender
+varchar(1));
+create table runs_on(bus_id int, days date,available int);
+create table bus(bus_id int primary key, bname varchar(20),src varchar(20), dest
+varchar(20),dep_time time, dest_time time, total_seats int, base_fare decimal(6,2), AC_type bool,
+AC_fare decimal(6,2), non_AC_fare decimal(6,2), seat_type bool, sl_fare decimal(6,2), st_fare
+decimal(6,2));
+drop table trigger_test;
+CREATE TABLE trigger_test (message VARCHAR(100));
+
+update bus set non_AC_fare = 0 where bus_id>0 and AC_type = 1;
+update bus set AC_fare = 0 where bus_id>0 and AC_type = 0;
+update bus set sl_fare=0 where seat_type=0;
+update bus set st_fare=0 where seat_type=1;
+
+
+select * from customer;
+select * from bus;
+Select * from runs_on;
+select * from passenger;
+select * from ticket;
+select * from booking;
+select * from customer;
+select * from trigger_test;
+
+delete from booking ;
+delete from passenger;
+delete from ticket;
+delete from bus;
+delete from runs_on;
+
+alter table ticket add constraint fk_cas foreign key(booking_id) references booking(booking_id) on delete cascade;
+alter table passenger add constraint fk_cass foreign key(ticket_id) references ticket(ticket_id) on delete cascade;
+
+#Coimbatore to Chennai (Timing : 12 am to 12 pm)
+
+#1. AC Seater
+
+insert into bus values(1,'Parvin Travels','COIMBATORE','CHENNAI','08:00:00','16:30:00',21,550.00,true,100.00,NULL,false,NULL,50.00);
+insert into bus values(2,'Travel Empire','COIMBATORE','CHENNAI','09:00:00','17:00:00',21,600.00,true,110.00,NULL,false,NULL,50.00);
+insert into bus values(3,'KPN Travel','COIMBATORE','CHENNAI','10:00:00','19:30:00',21,620.00,true,120.00,NULL,false,NULL,50.00);
+insert into bus values(4,'SRV Travels','COIMBATORE','CHENNAI','11:00:00','20:30:00',21,530.00,true,115.00,NULL,false,NULL,50.00);
+insert into runs_on values(1,'2021-04-16',21);
+insert into runs_on values(2,'2021-04-16',21);
+insert into runs_on values(3,'2021-04-16',21);
+insert into runs_on values(4,'2021-04-16',21);
+insert into runs_on values(1,'2021-04-18',21);
+insert into runs_on values(2,'2021-04-18',21);
+insert into runs_on values(3,'2021-04-18',21);
+insert into runs_on values(4,'2021-04-18',21);
+insert into runs_on values(1,'2021-04-20',21);
+insert into runs_on values(2,'2021-04-20',21);
+insert into runs_on values(3,'2021-04-20',21);
+insert into runs_on values(4,'2021-04-20',21);
+insert into runs_on values(1,'2021-04-22',21);
+insert into runs_on values(2,'2021-04-22',21);
+insert into runs_on values(3,'2021-04-22',21);
+insert into runs_on values(4,'2021-04-22',21);
+
+#2. AC Sleeper
+
+insert into bus values(5,'Parvin Travels','COIMBATORE','CHENNAI','01:00:00','09:30:00',12,550.00,true,100.00,NULL,true,100.00,NULL);
+insert into bus values(6,'Travel Empire','COIMBATORE','CHENNAI','00:30:00','08:30:00',12,600.00,true,110.00,NULL,true,110.00,NULL);
+insert into bus values(7,'KPN Travel','COIMBATORE','CHENNAI','01:30:00','10:30:00',12,620.00,true,120.00,NULL,true,120.00,NULL);
+insert into bus values(8,'SRV Travels','COIMBATORE','CHENNAI','02:00:00','11:30:00',12,530.00,true,115.00,NULL,true,115.00,NULL);
+insert into runs_on values(5,'2021-04-16',12);
+insert into runs_on values(6,'2021-04-16',12);
+insert into runs_on values(7,'2021-04-16',12);
+insert into runs_on values(8,'2021-04-16',12);
+insert into runs_on values(5,'2021-04-18',12);
+insert into runs_on values(6,'2021-04-18',12);
+insert into runs_on values(7,'2021-04-18',12);
+insert into runs_on values(8,'2021-04-18',12);
+insert into runs_on values(5,'2021-04-20',12);
+insert into runs_on values(6,'2021-04-20',12);
+insert into runs_on values(7,'2021-04-20',12);
+insert into runs_on values(8,'2021-04-20',12);
+insert into runs_on values(5,'2021-04-22',12);
+insert into runs_on values(6,'2021-04-22',12);
+insert into runs_on values(7,'2021-04-22',12);
+insert into runs_on values(8,'2021-04-22',12);
+
+#3. Non AC Seater 
+
+insert into bus values(9,'Parvin Travels','COIMBATORE','CHENNAI','08:00:00','16:30:00',21,550.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(10,'Travel Empire','COIMBATORE','CHENNAI','09:00:00','17:00:00',21,600.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(11,'KPN Travel','COIMBATORE','CHENNAI','10:00:00','19:30:00',21,620.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(12,'SRV Travels','COIMBATORE','CHENNAI','11:00:00','20:30:00',21,530.00,false,NULL,50.00,false,NULL,50.00);
+insert into runs_on values(9,'2021-04-16',21);
+insert into runs_on values(10,'2021-04-16',21);
+insert into runs_on values(11,'2021-04-16',21);
+insert into runs_on values(12,'2021-04-16',21);
+insert into runs_on values(9,'2021-04-18',21);
+insert into runs_on values(10,'2021-04-18',21);
+insert into runs_on values(11,'2021-04-18',21);
+insert into runs_on values(12,'2021-04-18',21);
+insert into runs_on values(9,'2021-04-20',21);
+insert into runs_on values(10,'2021-04-20',21);
+insert into runs_on values(11,'2021-04-20',21);
+insert into runs_on values(12,'2021-04-20',21);
+insert into runs_on values(9,'2021-04-22',21);
+insert into runs_on values(10,'2021-04-22',21);
+insert into runs_on values(11,'2021-04-22',21);
+insert into runs_on values(12,'2021-04-22',21);
+
+#4. Non AC Sleeper
+
+insert into bus values(13,'Parvin Travels','COIMBATORE','CHENNAI','01:00:00','09:30:00',12,550.00,false,NULL,50.00,true,100.00,NULL);
+insert into bus values(14,'Travel Empire','COIMBATORE','CHENNAI','00:30:00','08:30:00',12,600.00,false,NULL,50.00,true,110.00,NULL);
+insert into bus values(15,'KPN Travel','COIMBATORE','CHENNAI','01:30:00','10:30:00',12,620.00,false,NULL,50.00,true,120.00,NULL);
+insert into bus values(16,'SRV Travels','COIMBATORE','CHENNAI','02:00:00','11:30:00',12,530.00,false,NULL,50.00,true,115.00,NULL);
+insert into runs_on values(13,'2021-04-16',12);
+insert into runs_on values(14,'2021-04-16',12);
+insert into runs_on values(15,'2021-04-16',12);
+insert into runs_on values(16,'2021-04-16',12);
+insert into runs_on values(13,'2021-04-18',12);
+insert into runs_on values(14,'2021-04-18',12);
+insert into runs_on values(15,'2021-04-18',12);
+insert into runs_on values(16,'2021-04-18',12);
+insert into runs_on values(13,'2021-04-20',12);
+insert into runs_on values(14,'2021-04-20',12);
+insert into runs_on values(15,'2021-04-20',12);
+insert into runs_on values(16,'2021-04-20',12);
+insert into runs_on values(13,'2021-04-22',12);
+insert into runs_on values(14,'2021-04-22',12);
+insert into runs_on values(15,'2021-04-22',12);
+insert into runs_on values(16,'2021-04-22',12);
+
+
+
+#Coimbatore to Chennai (Timing : 12 pm to 12 am)
+
+#1. AC Seater
+
+insert into bus values(17,'Parvin Travels','COIMBATORE','CHENNAI','13:00:00','21:30:00',21,550.00,true,100.00,NULL,false,NULL,50.00);
+insert into bus values(18,'Travel Empire','COIMBATORE','CHENNAI','14:00:00','22:00:00',21,600.00,true,110.00,NULL,false,NULL,50.00);
+insert into bus values(19,'KPN Travel','COIMBATORE','CHENNAI','15:00:00','23:00:00',21,620.00,true,120.00,NULL,false,NULL,50.00);
+insert into bus values(20,'SRV Travels','COIMBATORE','CHENNAI','15:30:00','23:30:00',21,530.00,true,115.00,NULL,false,NULL,50.00);
+insert into runs_on values(17,'2021-04-16',21);
+insert into runs_on values(18,'2021-04-16',21);
+insert into runs_on values(19,'2021-04-16',21);
+insert into runs_on values(20,'2021-04-16',21);
+insert into runs_on values(17,'2021-04-18',21);
+insert into runs_on values(18,'2021-04-18',21);
+insert into runs_on values(19,'2021-04-18',21);
+insert into runs_on values(20,'2021-04-18',21);
+insert into runs_on values(17,'2021-04-20',21);
+insert into runs_on values(18,'2021-04-20',21);
+insert into runs_on values(19,'2021-04-20',21);
+insert into runs_on values(20,'2021-04-20',21);
+insert into runs_on values(17,'2021-04-22',21);
+insert into runs_on values(18,'2021-04-22',21);
+insert into runs_on values(19,'2021-04-22',21);
+insert into runs_on values(20,'2021-04-22',21);
+
+#2. AC Sleeper
+
+insert into bus values(21,'Parvin Travels','COIMBATORE','CHENNAI','20:00:00','04:30:00',12,550.00,true,100.00,NULL,true,100.00,NULL);
+insert into bus values(22,'Travel Empire','COIMBATORE','CHENNAI','21:30:00','05:30:00',12,600.00,true,110.00,NULL,true,110.00,NULL);
+insert into bus values(23,'KPN Travel','COIMBATORE','CHENNAI','22:30:00','06:30:00',12,620.00,true,120.00,NULL,true,120.00,NULL);
+insert into bus values(24,'SRV Travels','COIMBATORE','CHENNAI','23:00:00','07:30:00',12,530.00,true,115.00,NULL,true,115.00,NULL);
+insert into runs_on values(21,'2021-04-16',12);
+insert into runs_on values(22,'2021-04-16',12);
+insert into runs_on values(23,'2021-04-16',12);
+insert into runs_on values(24,'2021-04-16',12);
+insert into runs_on values(21,'2021-04-18',12);
+insert into runs_on values(22,'2021-04-18',12);
+insert into runs_on values(23,'2021-04-18',12);
+insert into runs_on values(24,'2021-04-18',12);
+insert into runs_on values(21,'2021-04-20',12);
+insert into runs_on values(22,'2021-04-20',12);
+insert into runs_on values(23,'2021-04-20',12);
+insert into runs_on values(24,'2021-04-20',12);
+insert into runs_on values(21,'2021-04-22',12);
+insert into runs_on values(22,'2021-04-22',12);
+insert into runs_on values(23,'2021-04-22',12);
+insert into runs_on values(24,'2021-04-22',12);
+
+#3. Non AC Seater 
+
+insert into bus values(25,'Parvin Travels','COIMBATORE','CHENNAI','13:00:00','21:30:00',21,550.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(26,'Travel Empire','COIMBATORE','CHENNAI','14:00:00','22:00:00',21,600.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(27,'KPN Travel','COIMBATORE','CHENNAI','15:00:00','23:00:00',21,620.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(28,'SRV Travels','COIMBATORE','CHENNAI','15:30:00','23:30:00',21,530.00,false,NULL,50.00,false,NULL,50.00);
+insert into runs_on values(25,'2021-04-16',21);
+insert into runs_on values(26,'2021-04-16',21);
+insert into runs_on values(27,'2021-04-16',21);
+insert into runs_on values(28,'2021-04-16',21);
+insert into runs_on values(25,'2021-04-18',21);
+insert into runs_on values(26,'2021-04-18',21);
+insert into runs_on values(27,'2021-04-18',21);
+insert into runs_on values(28,'2021-04-18',21);
+insert into runs_on values(25,'2021-04-20',21);
+insert into runs_on values(26,'2021-04-20',21);
+insert into runs_on values(27,'2021-04-20',21);
+insert into runs_on values(28,'2021-04-20',21);
+insert into runs_on values(25,'2021-04-22',21);
+insert into runs_on values(26,'2021-04-22',21);
+insert into runs_on values(27,'2021-04-22',21);
+insert into runs_on values(28,'2021-04-22',21);
+
+#4. Non AC Sleeper
+
+insert into bus values(29,'Parvin Travels','COIMBATORE','CHENNAI','20:00:00','04:30:00',12,550.00,false,NULL,50.00,true,100.00,NULL);
+insert into bus values(30,'Travel Empire','COIMBATORE','CHENNAI','21:30:00','05:30:00',12,600.00,false,NULL,50.00,true,110.00,NULL);
+insert into bus values(31,'KPN Travel','COIMBATORE','CHENNAI','22:30:00','06:30:00',12,620.00,false,NULL,50.00,true,120.00,NULL);
+insert into bus values(32,'SRV Travels','COIMBATORE','CHENNAI','23:00:00','07:30:00',12,530.00,false,NULL,50.00,true,115.00,NULL);
+insert into runs_on values(29,'2021-04-16',12);
+insert into runs_on values(30,'2021-04-16',12);
+insert into runs_on values(31,'2021-04-16',12);
+insert into runs_on values(32,'2021-04-16',12);
+insert into runs_on values(29,'2021-04-18',12);
+insert into runs_on values(30,'2021-04-18',12);
+insert into runs_on values(31,'2021-04-18',12);
+insert into runs_on values(32,'2021-04-18',12);
+insert into runs_on values(29,'2021-04-20',12);
+insert into runs_on values(30,'2021-04-20',12);
+insert into runs_on values(31,'2021-04-20',12);
+insert into runs_on values(32,'2021-04-20',12);
+insert into runs_on values(29,'2021-04-22',12);
+insert into runs_on values(30,'2021-04-22',12);
+insert into runs_on values(31,'2021-04-22',12);
+insert into runs_on values(32,'2021-04-22',12);
+
+#Chennai to Coimbatore 12am to 12pm
+
+#1. AC Seater
+
+insert into bus values(33,'Parvin Travels','CHENNAI','COIMBATORE','08:00:00','17:30:00',21,550.00,true,100.00,NULL,false,NULL,50.00);
+insert into bus values(34,'Travel Empire','CHENNAI','COIMBATORE','09:00:00','17:00:00',21,600.00,true,110.00,NULL,false,NULL,50.00);
+insert into bus values(35,'KPN Travel','CHENNAI','COIMBATORE','10:00:00','19:30:00',21,620.00,true,120.00,NULL,false,NULL,50.00);
+insert into bus values(36,'SRV Travels','CHENNAI','COIMBATORE','11:00:00','20:30:00',21,530.00,true,115.00,NULL,false,NULL,50.00);
+insert into runs_on values(33,'2021-04-17',21);
+insert into runs_on values(34,'2021-04-17',21);
+insert into runs_on values(35,'2021-04-17',21);
+insert into runs_on values(36,'2021-04-17',21);
+insert into runs_on values(33,'2021-04-19',21);
+insert into runs_on values(34,'2021-04-19',21);
+insert into runs_on values(35,'2021-04-19',21);
+insert into runs_on values(36,'2021-04-19',21);
+insert into runs_on values(33,'2021-04-21',21);
+insert into runs_on values(34,'2021-04-21',21);
+insert into runs_on values(35,'2021-04-21',21);
+insert into runs_on values(36,'2021-04-21',21);
+
+#2. AC Sleeper
+
+insert into bus values(37,'Parvin Travels','CHENNAI','COIMBATORE','01:00:00','09:30:00',12,550.00,true,100.00,NULL,true,100.00,NULL);
+insert into bus values(38,'Travel Empire','CHENNAI','COIMBATORE','00:30:00','08:30:00',12,600.00,true,110.00,NULL,true,110.00,NULL);
+insert into bus values(39,'KPN Travel','CHENNAI','COIMBATORE','01:30:00','10:30:00',12,620.00,true,120.00,NULL,true,120.00,NULL);
+insert into bus values(40,'SRV Travels','CHENNAI','COIMBATORE','02:00:00','11:30:00',12,530.00,true,115.00,NULL,true,115.00,NULL);
+insert into runs_on values(37,'2021-04-17',12);
+insert into runs_on values(38,'2021-04-17',12);
+insert into runs_on values(39,'2021-04-17',12);
+insert into runs_on values(40,'2021-04-17',12);
+insert into runs_on values(37,'2021-04-19',12);
+insert into runs_on values(38,'2021-04-19',12);
+insert into runs_on values(39,'2021-04-19',12);
+insert into runs_on values(40,'2021-04-19',12);
+insert into runs_on values(37,'2021-04-21',12);
+insert into runs_on values(38,'2021-04-21',12);
+insert into runs_on values(39,'2021-04-21',12);
+insert into runs_on values(40,'2021-04-21',12);
+
+#3. Non AC Seater 
+
+insert into bus values(41,'Parvin Travels','CHENNAI','COIMBATORE','08:00:00','17:30:00',21,550.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(42,'Travel Empire','CHENNAI','COIMBATORE','09:00:00','17:00:00',21,600.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(43,'KPN Travel','CHENNAI','COIMBATORE','10:00:00','19:30:00',21,620.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(44,'SRV Travels','CHENNAI','COIMBATORE','11:00:00','20:30:00',21,530.00,false,NULL,50.00,false,NULL,50.00);
+insert into runs_on values(41,'2021-04-17',21);
+insert into runs_on values(42,'2021-04-17',21);
+insert into runs_on values(43,'2021-04-17',21);
+insert into runs_on values(44,'2021-04-17',21);
+insert into runs_on values(41,'2021-04-19',21);
+insert into runs_on values(42,'2021-04-19',21);
+insert into runs_on values(43,'2021-04-19',21);
+insert into runs_on values(44,'2021-04-19',21);
+insert into runs_on values(41,'2021-04-21',21);
+insert into runs_on values(42,'2021-04-21',21);
+insert into runs_on values(43,'2021-04-21',21);
+insert into runs_on values(44,'2021-04-21',21);
+
+
+#4. Non AC Sleeper
+
+insert into bus values(45,'Parvin Travels','CHENNAI','COIMBATORE','01:00:00','09:30:00',12,550.00,false,NULL,50.00,true,100.00,NULL);
+insert into bus values(46,'Travel Empire','CHENNAI','COIMBATORE','00:30:00','08:30:00',12,600.00,false,NULL,50.00,true,110.00,NULL);
+insert into bus values(47,'KPN Travel','CHENNAI','COIMBATORE','01:30:00','10:30:00',12,620.00,false,NULL,50.00,true,120.00,NULL);
+insert into bus values(48,'SRV Travels','CHENNAI','COIMBATORE','02:00:00','11:30:00',12,530.00,false,NULL,50.00,true,115.00,NULL);
+insert into runs_on values(45,'2021-04-17',12);
+insert into runs_on values(46,'2021-04-17',12);
+insert into runs_on values(47,'2021-04-17',12);
+insert into runs_on values(48,'2021-04-17',12);
+insert into runs_on values(45,'2021-04-19',12);
+insert into runs_on values(46,'2021-04-19',12);
+insert into runs_on values(47,'2021-04-19',12);
+insert into runs_on values(48,'2021-04-19',12);
+insert into runs_on values(45,'2021-04-21',12);
+insert into runs_on values(46,'2021-04-21',12);
+insert into runs_on values(47,'2021-04-21',12);
+insert into runs_on values(48,'2021-04-21',12);
+
+#Chennai to Coimbatore(Timing : 12 pm to 12 am)
+
+#1. AC Seater
+
+insert into bus values(49,'Parvin Travels','CHENNAI','COIMBATORE','13:00:00','21:30:00',21,550.00,true,100.00,NULL,false,NULL,50.00);
+insert into bus values(50,'Travel Empire','CHENNAI','COIMBATORE','14:00:00','22:00:00',21,600.00,true,110.00,NULL,false,NULL,50.00);
+insert into bus values(51,'KPN Travel','CHENNAI','COIMBATORE','15:00:00','23:00:00',21,620.00,true,120.00,NULL,false,NULL,50.00);
+insert into bus values(52,'SRV Travels','CHENNAI','COIMBATORE','15:30:00','23:30:00',21,530.00,true,115.00,NULL,false,NULL,50.00);
+insert into runs_on values(49,'2021-04-17',21);
+insert into runs_on values(50,'2021-04-17',21);
+insert into runs_on values(51,'2021-04-17',21);
+insert into runs_on values(52,'2021-04-17',21);
+insert into runs_on values(49,'2021-04-19',21);
+insert into runs_on values(50,'2021-04-19',21);
+insert into runs_on values(51,'2021-04-19',21);
+insert into runs_on values(52,'2021-04-19',21);
+insert into runs_on values(49,'2021-04-21',21);
+insert into runs_on values(50,'2021-04-21',21);
+insert into runs_on values(51,'2021-04-21',21);
+insert into runs_on values(52,'2021-04-21',21);
+
+
+#2. AC Sleeper
+
+insert into bus values(53,'Parvin Travels','CHENNAI','COIMBATORE','20:00:00','04:30:00',12,550.00,true,100.00,NULL,true,100.00,NULL);
+insert into bus values(54,'Travel Empire','CHENNAI','COIMBATORE','21:30:00','05:30:00',12,600.00,true,110.00,NULL,true,110.00,NULL);
+insert into bus values(55,'KPN Travel','CHENNAI','COIMBATORE','22:30:00','06:30:00',12,620.00,true,120.00,NULL,true,120.00,NULL);
+insert into bus values(56,'SRV Travels','CHENNAI','COIMBATORE','23:00:00','07:30:00',12,530.00,true,115.00,NULL,true,115.00,NULL);
+insert into runs_on values(53,'2021-04-17',12);
+insert into runs_on values(54,'2021-04-17',12);
+insert into runs_on values(55,'2021-04-17',12);
+insert into runs_on values(56,'2021-04-17',12);
+insert into runs_on values(53,'2021-04-19',12);
+insert into runs_on values(54,'2021-04-19',12);
+insert into runs_on values(55,'2021-04-19',12);
+insert into runs_on values(56,'2021-04-19',12);
+insert into runs_on values(53,'2021-04-21',12);
+insert into runs_on values(54,'2021-04-21',12);
+insert into runs_on values(55,'2021-04-21',12);
+insert into runs_on values(56,'2021-04-21',12);
+
+
+#3. Non AC Seater 
+
+insert into bus values(57,'Parvin Travels','CHENNAI','COIMBATORE','13:00:00','21:30:00',21,550.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(58,'Travel Empire','CHENNAI','COIMBATORE','14:00:00','22:00:00',21,600.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(59,'KPN Travel','CHENNAI','COIMBATORE','15:00:00','23:00:00',21,620.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(60,'SRV Travels','CHENNAI','COIMBATORE','15:30:00','23:30:00',21,530.00,false,NULL,50.00,false,NULL,50.00);
+insert into runs_on values(57,'2021-04-17',21);
+insert into runs_on values(58,'2021-04-17',21);
+insert into runs_on values(59,'2021-04-17',21);
+insert into runs_on values(60,'2021-04-17',21);
+insert into runs_on values(57,'2021-04-19',21);
+insert into runs_on values(58,'2021-04-19',21);
+insert into runs_on values(59,'2021-04-19',21);
+insert into runs_on values(60,'2021-04-19',21);
+insert into runs_on values(57,'2021-04-21',21);
+insert into runs_on values(58,'2021-04-21',21);
+insert into runs_on values(59,'2021-04-21',21);
+insert into runs_on values(60,'2021-04-21',21);
+insert into runs_on values(57,'2021-04-22',21);
+
+
+#4. Non AC Sleeper
+
+insert into bus values(61,'Parvin Travels','CHENNAI','COIMBATORE','20:00:00','04:30:00',12,550.00,false,NULL,50.00,true,100.00,NULL);
+insert into bus values(62,'Travel Empire','CHENNAI','COIMBATORE','21:30:00','05:30:00',12,600.00,false,NULL,50.00,true,110.00,NULL);
+insert into bus values(63,'KPN Travel','CHENNAI','COIMBATORE','22:30:00','06:30:00',12,620.00,false,NULL,50.00,true,120.00,NULL);
+insert into bus values(64,'SRV Travels','CHENNAI','COIMBATORE','23:00:00','07:30:00',12,530.00,false,NULL,50.00,true,115.00,NULL);
+insert into runs_on values(61,'2021-04-17',12);
+insert into runs_on values(62,'2021-04-17',12);
+insert into runs_on values(63,'2021-04-17',12);
+insert into runs_on values(64,'2021-04-17',12);
+insert into runs_on values(61,'2021-04-19',12);
+insert into runs_on values(62,'2021-04-19',12);
+insert into runs_on values(63,'2021-04-19',12);
+insert into runs_on values(64,'2021-04-19',12);
+insert into runs_on values(61,'2021-04-21',12);
+insert into runs_on values(62,'2021-04-21',12);
+insert into runs_on values(63,'2021-04-21',12);
+insert into runs_on values(64,'2021-04-21',12);
+
+#TRICHY to BANGALORE (Timing : 12 am to 12 pm)
+
+#1. AC Seater
+
+insert into bus values(65,'Parvin Travels','TRICHY','BANGALORE','08:00:00','16:30:00',21,550.00,true,100.00,NULL,false,NULL,50.00);
+insert into bus values(66,'Travel Empire','TRICHY','BANGALORE','09:00:00','17:00:00',21,600.00,true,110.00,NULL,false,NULL,50.00);
+insert into bus values(67,'KPN Travel','TRICHY','BANGALORE','10:00:00','19:30:00',21,620.00,true,120.00,NULL,false,NULL,50.00);
+insert into bus values(68,'SRV Travels','TRICHY','BANGALORE','11:00:00','20:30:00',21,530.00,true,115.00,NULL,false,NULL,50.00);
+insert into runs_on values(65,'2021-04-16',21);
+insert into runs_on values(66,'2021-04-16',21);
+insert into runs_on values(67,'2021-04-16',21);
+insert into runs_on values(68,'2021-04-16',21);
+insert into runs_on values(65,'2021-04-18',21);
+insert into runs_on values(66,'2021-04-18',21);
+insert into runs_on values(67,'2021-04-18',21);
+insert into runs_on values(68,'2021-04-18',21);
+insert into runs_on values(65,'2021-04-20',21);
+insert into runs_on values(66,'2021-04-20',21);
+insert into runs_on values(67,'2021-04-20',21);
+insert into runs_on values(68,'2021-04-20',21);
+insert into runs_on values(65,'2021-04-22',21);
+insert into runs_on values(66,'2021-04-22',21);
+insert into runs_on values(67,'2021-04-22',21);
+insert into runs_on values(68,'2021-04-22',21);
+
+#2. AC Sleeper
+
+insert into bus values(69,'Parvin Travels','TRICHY','BANGALORE','01:00:00','09:30:00',12,550.00,true,100.00,NULL,true,100.00,NULL);
+insert into bus values(70,'Travel Empire','TRICHY','BANGALORE','00:30:00','08:30:00',12,600.00,true,110.00,NULL,true,110.00,NULL);
+insert into bus values(71,'KPN Travel','TRICHY','BANGALORE','01:30:00','10:30:00',12,620.00,true,120.00,NULL,true,120.00,NULL);
+insert into bus values(72,'SRV Travels','TRICHY','BANGALORE','02:00:00','11:30:00',12,530.00,true,115.00,NULL,true,115.00,NULL);
+insert into runs_on values(69,'2021-04-16',12);
+insert into runs_on values(70,'2021-04-16',12);
+insert into runs_on values(71,'2021-04-16',12);
+insert into runs_on values(72,'2021-04-16',12);
+insert into runs_on values(69,'2021-04-18',12);
+insert into runs_on values(70,'2021-04-18',12);
+insert into runs_on values(71,'2021-04-18',12);
+insert into runs_on values(72,'2021-04-18',12);
+insert into runs_on values(69,'2021-04-20',12);
+insert into runs_on values(70,'2021-04-20',12);
+insert into runs_on values(71,'2021-04-20',12);
+insert into runs_on values(72,'2021-04-20',12);
+insert into runs_on values(69,'2021-04-22',12);
+insert into runs_on values(70,'2021-04-22',12);
+insert into runs_on values(71,'2021-04-22',12);
+insert into runs_on values(72,'2021-04-22',12);
+
+
+#3. Non AC Seater 
+
+insert into bus values(73,'Parvin Travels','TRICHY','BANGALORE','08:00:00','16:30:00',21,550.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(74,'Travel Empire','TRICHY','BANGALORE','09:00:00','17:00:00',21,600.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(75,'KPN Travel','TRICHY','BANGALORE','10:00:00','19:30:00',21,620.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(76,'SRV Travels','TRICHY','BANGALORE','11:00:00','20:30:00',21,530.00,false,NULL,50.00,false,NULL,50.00);
+insert into runs_on values(73,'2021-04-16',21);
+insert into runs_on values(74,'2021-04-16',21);
+insert into runs_on values(75,'2021-04-16',21);
+insert into runs_on values(76,'2021-04-16',21);
+insert into runs_on values(73,'2021-04-18',21);
+insert into runs_on values(74,'2021-04-18',21);
+insert into runs_on values(75,'2021-04-18',21);
+insert into runs_on values(76,'2021-04-18',21);
+insert into runs_on values(73,'2021-04-20',21);
+insert into runs_on values(74,'2021-04-20',21);
+insert into runs_on values(75,'2021-04-20',21);
+insert into runs_on values(76,'2021-04-20',21);
+insert into runs_on values(73,'2021-04-22',21);
+insert into runs_on values(74,'2021-04-22',21);
+insert into runs_on values(75,'2021-04-22',21);
+insert into runs_on values(76,'2021-04-22',21);
+
+#4. Non AC Sleeper
+
+insert into bus values(77,'Parvin Travels','TRICHY','BANGALORE','01:00:00','09:30:00',12,550.00,false,NULL,50.00,true,100.00,NULL);
+insert into bus values(78,'Travel Empire','TRICHY','BANGALORE','00:30:00','08:30:00',12,600.00,false,NULL,50.00,true,110.00,NULL);
+insert into bus values(79,'KPN Travel','TRICHY','BANGALORE','01:30:00','10:30:00',12,620.00,false,NULL,50.00,true,120.00,NULL);
+insert into bus values(80,'SRV Travels','TRICHY','BANGALORE','02:00:00','11:30:00',12,530.00,false,NULL,50.00,true,115.00,NULL);
+insert into runs_on values(77,'2021-04-16',12);
+insert into runs_on values(78,'2021-04-16',12);
+insert into runs_on values(79,'2021-04-16',12);
+insert into runs_on values(80,'2021-04-16',12);
+insert into runs_on values(77,'2021-04-18',12);
+insert into runs_on values(78,'2021-04-18',12);
+insert into runs_on values(79,'2021-04-18',12);
+insert into runs_on values(80,'2021-04-18',12);
+insert into runs_on values(77,'2021-04-20',12);
+insert into runs_on values(78,'2021-04-20',12);
+insert into runs_on values(79,'2021-04-20',12);
+insert into runs_on values(80,'2021-04-20',12);
+insert into runs_on values(77,'2021-04-22',12);
+insert into runs_on values(78,'2021-04-22',12);
+insert into runs_on values(79,'2021-04-22',12);
+insert into runs_on values(80,'2021-04-22',12);
+
+#TRICHY to BANGALORE (Timing : 12 pm to 12 am)
+
+#1. AC Seater
+
+insert into bus values(81,'Parvin Travels','TRICHY','BANGALORE','13:00:00','21:30:00',21,550.00,true,100.00,NULL,false,NULL,50.00);
+insert into bus values(82,'Travel Empire','TRICHY','BANGALORE','14:00:00','22:00:00',21,600.00,true,110.00,NULL,false,NULL,50.00);
+insert into bus values(83,'KPN Travel','TRICHY','BANGALORE','15:00:00','23:00:00',21,620.00,true,120.00,NULL,false,NULL,50.00);
+insert into bus values(84,'SRV Travels','TRICHY','BANGALORE','15:30:00','23:30:00',21,530.00,true,115.00,NULL,false,NULL,50.00);
+insert into runs_on values(81,'2021-04-16',21);
+insert into runs_on values(82,'2021-04-16',21);
+insert into runs_on values(83,'2021-04-16',21);
+insert into runs_on values(84,'2021-04-16',21);
+insert into runs_on values(81,'2021-04-18',21);
+insert into runs_on values(82,'2021-04-18',21);
+insert into runs_on values(83,'2021-04-18',21);
+insert into runs_on values(84,'2021-04-18',21);
+insert into runs_on values(81,'2021-04-20',21);
+insert into runs_on values(82,'2021-04-20',21);
+insert into runs_on values(83,'2021-04-20',21);
+insert into runs_on values(84,'2021-04-20',21);
+insert into runs_on values(81,'2021-04-22',21);
+insert into runs_on values(82,'2021-04-22',21);
+insert into runs_on values(83,'2021-04-22',21);
+insert into runs_on values(84,'2021-04-22',21);
+
+#2. AC Sleeper
+
+insert into bus values(85,'Parvin Travels','TRICHY','BANGALORE','20:00:00','04:30:00',12,550.00,true,100.00,NULL,true,100.00,NULL);
+insert into bus values(86,'Travel Empire','TRICHY','BANGALORE','21:30:00','05:30:00',12,600.00,true,110.00,NULL,true,110.00,NULL);
+insert into bus values(87,'KPN Travel','TRICHY','BANGALORE','22:30:00','06:30:00',12,620.00,true,120.00,NULL,true,120.00,NULL);
+insert into bus values(88,'SRV Travels','TRICHY','BANGALORE','23:00:00','07:30:00',12,530.00,true,115.00,NULL,true,115.00,NULL);
+insert into runs_on values(85,'2021-04-16',12);
+insert into runs_on values(86,'2021-04-16',12);
+insert into runs_on values(87,'2021-04-16',12);
+insert into runs_on values(88,'2021-04-16',12);
+insert into runs_on values(85,'2021-04-18',12);
+insert into runs_on values(86,'2021-04-18',12);
+insert into runs_on values(87,'2021-04-18',12);
+insert into runs_on values(88,'2021-04-18',12);
+insert into runs_on values(85,'2021-04-20',12);
+insert into runs_on values(86,'2021-04-20',12);
+insert into runs_on values(87,'2021-04-20',12);
+insert into runs_on values(88,'2021-04-20',12);
+insert into runs_on values(85,'2021-04-22',12);
+insert into runs_on values(86,'2021-04-22',12);
+insert into runs_on values(87,'2021-04-22',12);
+insert into runs_on values(88,'2021-04-22',12);
+
+#3. Non AC Seater 
+
+insert into bus values(89,'Parvin Travels','TRICHY','BANGALORE','13:00:00','21:30:00',21,550.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(90,'Travel Empire','TRICHY','BANGALORE','14:00:00','22:00:00',21,600.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(91,'KPN Travel','TRICHY','BANGALORE','15:00:00','23:00:00',21,620.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(92,'SRV Travels','TRICHY','BANGALORE','15:30:00','23:30:00',21,530.00,false,NULL,50.00,false,NULL,50.00);
+insert into runs_on values(89,'2021-04-16',21);
+insert into runs_on values(90,'2021-04-16',21);
+insert into runs_on values(91,'2021-04-16',21);
+insert into runs_on values(92,'2021-04-16',21);
+insert into runs_on values(89,'2021-04-18',21);
+insert into runs_on values(90,'2021-04-18',21);
+insert into runs_on values(91,'2021-04-18',21);
+insert into runs_on values(92,'2021-04-18',21);
+insert into runs_on values(89,'2021-04-20',21);
+insert into runs_on values(90,'2021-04-20',21);
+insert into runs_on values(91,'2021-04-20',21);
+insert into runs_on values(92,'2021-04-20',21);
+insert into runs_on values(89,'2021-04-22',21);
+insert into runs_on values(90,'2021-04-22',21);
+insert into runs_on values(91,'2021-04-22',21);
+insert into runs_on values(92,'2021-04-22',21);
+
+#4. Non AC Sleeper
+
+insert into bus values(93,'Parvin Travels','TRICHY','BANGALORE','20:00:00','04:30:00',12,550.00,false,NULL,50.00,true,100.00,NULL);
+insert into bus values(94,'Travel Empire','TRICHY','BANGALORE','21:30:00','05:30:00',12,600.00,false,NULL,50.00,true,110.00,NULL);
+insert into bus values(95,'KPN Travel','TRICHY','BANGALORE','22:30:00','06:30:00',12,620.00,false,NULL,50.00,true,120.00,NULL);
+insert into bus values(96,'SRV Travels','TRICHY','BANGALORE','23:00:00','07:30:00',12,530.00,false,NULL,50.00,true,115.00,NULL);
+insert into runs_on values(93,'2021-04-16',12);
+insert into runs_on values(94,'2021-04-16',12);
+insert into runs_on values(95,'2021-04-16',12);
+insert into runs_on values(96,'2021-04-16',12);
+insert into runs_on values(93,'2021-04-18',12);
+insert into runs_on values(94,'2021-04-18',12);
+insert into runs_on values(95,'2021-04-18',12);
+insert into runs_on values(96,'2021-04-18',12);
+insert into runs_on values(93,'2021-04-20',12);
+insert into runs_on values(94,'2021-04-20',12);
+insert into runs_on values(95,'2021-04-20',12);
+insert into runs_on values(96,'2021-04-20',12);
+insert into runs_on values(93,'2021-04-22',12);
+insert into runs_on values(94,'2021-04-22',12);
+insert into runs_on values(95,'2021-04-22',12);
+insert into runs_on values(96,'2021-04-22',12);
+
+
+#BANGALORE to TRICHY 12am to 12pm
+
+#1. AC Seater
+
+insert into bus values(97,'Parvin Travels','BANGALORE','TRICHY','08:00:00','17:30:00',21,550.00,true,100.00,NULL,false,NULL,50.00);
+insert into bus values(98,'Travel Empire','BANGALORE','TRICHY','09:00:00','17:00:00',21,600.00,true,110.00,NULL,false,NULL,50.00);
+insert into bus values(99,'KPN Travel','BANGALORE','TRICHY','10:00:00','19:30:00',21,620.00,true,120.00,NULL,false,NULL,50.00);
+insert into bus values(100,'SRV Travels','BANGALORE','TRICHY','11:00:00','20:30:00',21,530.00,true,115.00,NULL,false,NULL,50.00);
+insert into runs_on values(97,'2021-04-17',21);
+insert into runs_on values(98,'2021-04-17',21);
+insert into runs_on values(99,'2021-04-17',21);
+insert into runs_on values(100,'2021-04-17',21);
+insert into runs_on values(97,'2021-04-19',21);
+insert into runs_on values(98,'2021-04-19',21);
+insert into runs_on values(99,'2021-04-19',21);
+insert into runs_on values(100,'2021-04-19',21);
+insert into runs_on values(97,'2021-04-21',21);
+insert into runs_on values(98,'2021-04-21',21);
+insert into runs_on values(99,'2021-04-21',21);
+insert into runs_on values(100,'2021-04-21',21);
+
+#2. AC Sleeper
+
+insert into bus values(101,'Parvin Travels','BANGALORE','TRICHY','01:00:00','09:30:00',12,550.00,true,100.00,NULL,true,100.00,NULL);
+insert into bus values(102,'Travel Empire','BANGALORE','TRICHY','00:30:00','08:30:00',12,600.00,true,110.00,NULL,true,110.00,NULL);
+insert into bus values(103,'KPN Travel','BANGALORE','TRICHY','01:30:00','10:30:00',12,620.00,true,120.00,NULL,true,120.00,NULL);
+insert into bus values(104,'SRV Travels','BANGALORE','TRICHY','02:00:00','11:30:00',12,530.00,true,115.00,NULL,true,115.00,NULL);
+insert into runs_on values(101,'2021-04-17',12);
+insert into runs_on values(102,'2021-04-17',12);
+insert into runs_on values(103,'2021-04-17',12);
+insert into runs_on values(104,'2021-04-17',12);
+insert into runs_on values(101,'2021-04-19',12);
+insert into runs_on values(102,'2021-04-19',12);
+insert into runs_on values(103,'2021-04-19',12);
+insert into runs_on values(104,'2021-04-19',12);
+insert into runs_on values(101,'2021-04-21',12);
+insert into runs_on values(102,'2021-04-21',12);
+insert into runs_on values(103,'2021-04-21',12);
+insert into runs_on values(104,'2021-04-21',12);
+
+#3. Non AC Seater 
+
+insert into bus values(105,'Parvin Travels','BANGALORE','TRICHY','08:00:00','17:30:00',21,550.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(106,'Travel Empire','BANGALORE','TRICHY','09:00:00','17:00:00',21,600.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(107,'KPN Travel','BANGALORE','TRICHY','10:00:00','19:30:00',21,620.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(108,'SRV Travels','BANGALORE','TRICHY','11:00:00','20:30:00',21,530.00,false,NULL,50.00,false,NULL,50.00);
+insert into runs_on values(105,'2021-04-17',21);
+insert into runs_on values(106,'2021-04-17',21);
+insert into runs_on values(107,'2021-04-17',21);
+insert into runs_on values(108,'2021-04-17',21);
+insert into runs_on values(105,'2021-04-19',21);
+insert into runs_on values(106,'2021-04-19',21);
+insert into runs_on values(107,'2021-04-19',21);
+insert into runs_on values(108,'2021-04-19',21);
+insert into runs_on values(105,'2021-04-21',21);
+insert into runs_on values(106,'2021-04-21',21);
+insert into runs_on values(107,'2021-04-21',21);
+insert into runs_on values(108,'2021-04-21',21);
+
+
+#4. Non AC Sleeper
+
+insert into bus values(109,'Parvin Travels','BANGALORE','TRICHY','01:00:00','09:30:00',12,550.00,false,NULL,50.00,true,100.00,NULL);
+insert into bus values(110,'Travel Empire','BANGALORE','TRICHY','00:30:00','08:30:00',12,600.00,false,NULL,50.00,true,110.00,NULL);
+insert into bus values(111,'KPN Travel','BANGALORE','TRICHY','01:30:00','10:30:00',12,620.00,false,NULL,50.00,true,120.00,NULL);
+insert into bus values(112,'SRV Travels','BANGALORE','TRICHY','02:00:00','11:30:00',12,530.00,false,NULL,50.00,true,115.00,NULL);
+insert into runs_on values(109,'2021-04-17',12);
+insert into runs_on values(110,'2021-04-17',12);
+insert into runs_on values(111,'2021-04-17',12);
+insert into runs_on values(112,'2021-04-17',12);
+insert into runs_on values(109,'2021-04-19',12);
+insert into runs_on values(110,'2021-04-19',12);
+insert into runs_on values(111,'2021-04-19',12);
+insert into runs_on values(112,'2021-04-19',12);
+insert into runs_on values(109,'2021-04-21',12);
+insert into runs_on values(110,'2021-04-21',12);
+insert into runs_on values(111,'2021-04-21',12);
+insert into runs_on values(112,'2021-04-21',12);
+
+#BANGALORE to TRICHY(Timing : 12 pm to 12 am)
+
+#1. AC Seater
+
+insert into bus values(113,'Parvin Travels','BANGALORE','TRICHY','13:00:00','21:30:00',21,550.00,true,100.00,NULL,false,NULL,50.00);
+insert into bus values(114,'Travel Empire','BANGALORE','TRICHY','14:00:00','22:00:00',21,600.00,true,110.00,NULL,false,NULL,50.00);
+insert into bus values(115,'KPN Travel','BANGALORE','TRICHY','15:00:00','23:00:00',21,620.00,true,120.00,NULL,false,NULL,50.00);
+insert into bus values(116,'SRV Travels','BANGALORE','TRICHY','15:30:00','23:30:00',21,530.00,true,115.00,NULL,false,NULL,50.00);
+insert into runs_on values(113,'2021-04-17',21);
+insert into runs_on values(114,'2021-04-17',21);
+insert into runs_on values(115,'2021-04-17',21);
+insert into runs_on values(116,'2021-04-17',21);
+insert into runs_on values(113,'2021-04-19',21);
+insert into runs_on values(114,'2021-04-19',21);
+insert into runs_on values(115,'2021-04-19',21);
+insert into runs_on values(116,'2021-04-19',21);
+insert into runs_on values(113,'2021-04-21',21);
+insert into runs_on values(114,'2021-04-21',21);
+insert into runs_on values(115,'2021-04-21',21);
+insert into runs_on values(116,'2021-04-21',21);
+
+
+#2. AC Sleeper
+
+insert into bus values(117,'Parvin Travels','BANGALORE','TRICHY','20:00:00','04:30:00',12,550.00,true,100.00,NULL,true,100.00,NULL);
+insert into bus values(118,'Travel Empire','BANGALORE','TRICHY','21:30:00','05:30:00',12,600.00,true,110.00,NULL,true,110.00,NULL);
+insert into bus values(119,'KPN Travel','BANGALORE','TRICHY','22:30:00','06:30:00',12,620.00,true,120.00,NULL,true,120.00,NULL);
+insert into bus values(120,'SRV Travels','BANGALORE','TRICHY','23:00:00','07:30:00',12,530.00,true,115.00,NULL,true,115.00,NULL);
+insert into runs_on values(117,'2021-04-17',12);
+insert into runs_on values(118,'2021-04-17',12);
+insert into runs_on values(119,'2021-04-17',12);
+insert into runs_on values(120,'2021-04-17',12);
+insert into runs_on values(117,'2021-04-19',12);
+insert into runs_on values(118,'2021-04-19',12);
+insert into runs_on values(119,'2021-04-19',12);
+insert into runs_on values(120,'2021-04-19',12);
+insert into runs_on values(117,'2021-04-21',12);
+insert into runs_on values(118,'2021-04-21',12);
+insert into runs_on values(119,'2021-04-21',12);
+insert into runs_on values(120,'2021-04-21',12);
+
+
+#3. Non AC Seater 
+
+insert into bus values(121,'Parvin Travels','BANGALORE','TRICHY','13:00:00','21:30:00',21,550.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(122,'Travel Empire','BANGALORE','TRICHY','14:00:00','22:00:00',21,600.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(123,'KPN Travel','BANGALORE','TRICHY','15:00:00','23:00:00',21,620.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(124,'SRV Travels','BANGALORE','TRICHY','15:30:00','23:30:00',21,530.00,false,NULL,50.00,false,NULL,50.00);
+insert into runs_on values(121,'2021-04-17',21);
+insert into runs_on values(122,'2021-04-17',21);
+insert into runs_on values(123,'2021-04-17',21);
+insert into runs_on values(124,'2021-04-17',21);
+insert into runs_on values(121,'2021-04-19',21);
+insert into runs_on values(122,'2021-04-19',21);
+insert into runs_on values(123,'2021-04-19',21);
+insert into runs_on values(124,'2021-04-19',21);
+insert into runs_on values(121,'2021-04-21',21);
+insert into runs_on values(122,'2021-04-21',21);
+insert into runs_on values(123,'2021-04-21',21);
+insert into runs_on values(124,'2021-04-21',21);
+insert into runs_on values(121,'2021-04-22',21);
+
+
+#4. Non AC Sleeper
+
+insert into bus values(125,'Parvin Travels','BANGALORE','TRICHY','20:00:00','04:30:00',12,550.00,false,NULL,50.00,true,100.00,NULL);
+insert into bus values(126,'Travel Empire','BANGALORE','TRICHY','21:30:00','05:30:00',12,600.00,false,NULL,50.00,true,110.00,NULL);
+insert into bus values(127,'KPN Travel','BANGALORE','TRICHY','22:30:00','06:30:00',12,620.00,false,NULL,50.00,true,120.00,NULL);
+insert into bus values(128,'SRV Travels','BANGALORE','TRICHY','23:00:00','07:30:00',12,530.00,false,NULL,50.00,true,115.00,NULL);
+insert into runs_on values(125,'2021-04-17',12);
+insert into runs_on values(126,'2021-04-17',12);
+insert into runs_on values(127,'2021-04-17',12);
+insert into runs_on values(128,'2021-04-17',12);
+insert into runs_on values(125,'2021-04-19',12);
+insert into runs_on values(126,'2021-04-19',12);
+insert into runs_on values(127,'2021-04-19',12);
+insert into runs_on values(128,'2021-04-19',12);
+insert into runs_on values(125,'2021-04-21',12);
+insert into runs_on values(126,'2021-04-21',12);
+insert into runs_on values(127,'2021-04-21',12);
+insert into runs_on values(128,'2021-04-21',12);
+
+#Madurai to Salem (Timing : 12 am to 12 pm)
+
+#1. AC Seater
+
+insert into bus values(129,'Parvin Travels','MADURAI','SALEM','08:00:00','16:30:00',21,550.00,true,100.00,NULL,false,NULL,50.00);
+insert into bus values(130,'Travel Empire','MADURAI','SALEM','09:00:00','17:00:00',21,600.00,true,110.00,NULL,false,NULL,50.00);
+insert into bus values(131,'KPN Travel','MADURAI','SALEM','10:00:00','19:30:00',21,620.00,true,120.00,NULL,false,NULL,50.00);
+insert into bus values(132,'SRV Travels','MADURAI','SALEM','11:00:00','20:30:00',21,530.00,true,115.00,NULL,false,NULL,50.00);
+insert into runs_on values(129,'2021-04-16',21);
+insert into runs_on values(130,'2021-04-16',21);
+insert into runs_on values(131,'2021-04-16',21);
+insert into runs_on values(132,'2021-04-16',21);
+insert into runs_on values(129,'2021-04-18',21);
+insert into runs_on values(130,'2021-04-18',21);
+insert into runs_on values(131,'2021-04-18',21);
+insert into runs_on values(132,'2021-04-18',21);
+insert into runs_on values(129,'2021-04-20',21);
+insert into runs_on values(130,'2021-04-20',21);
+insert into runs_on values(131,'2021-04-20',21);
+insert into runs_on values(132,'2021-04-20',21);
+insert into runs_on values(129,'2021-04-22',21);
+insert into runs_on values(130,'2021-04-22',21);
+insert into runs_on values(131,'2021-04-22',21);
+insert into runs_on values(132,'2021-04-22',21);
+
+#2. AC Sleeper
+
+insert into bus values(133,'Parvin Travels','MADURAI','SALEM','01:00:00','09:30:00',12,550.00,true,100.00,NULL,true,100.00,NULL);
+insert into bus values(134,'Travel Empire','MADURAI','SALEM','00:30:00','08:30:00',12,600.00,true,110.00,NULL,true,110.00,NULL);
+insert into bus values(135,'KPN Travel','MADURAI','SALEM','01:30:00','10:30:00',12,620.00,true,120.00,NULL,true,120.00,NULL);
+insert into bus values(136,'SRV Travels','MADURAI','SALEM','02:00:00','11:30:00',12,530.00,true,115.00,NULL,true,115.00,NULL);
+insert into runs_on values(133,'2021-04-16',12);
+insert into runs_on values(134,'2021-04-16',12);
+insert into runs_on values(135,'2021-04-16',12);
+insert into runs_on values(136,'2021-04-16',12);
+insert into runs_on values(133,'2021-04-18',12);
+insert into runs_on values(134,'2021-04-18',12);
+insert into runs_on values(135,'2021-04-18',12);
+insert into runs_on values(136,'2021-04-18',12);
+insert into runs_on values(133,'2021-04-20',12);
+insert into runs_on values(134,'2021-04-20',12);
+insert into runs_on values(135,'2021-04-20',12);
+insert into runs_on values(136,'2021-04-20',12);
+insert into runs_on values(133,'2021-04-22',12);
+insert into runs_on values(134,'2021-04-22',12);
+insert into runs_on values(135,'2021-04-22',12);
+insert into runs_on values(136,'2021-04-22',12);
+
+#3. Non AC Seater 
+
+insert into bus values(137,'Parvin Travels','MADURAI','SALEM','08:00:00','16:30:00',21,550.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(138,'Travel Empire','MADURAI','SALEM','09:00:00','17:00:00',21,600.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(139,'KPN Travel','MADURAI','SALEM','10:00:00','19:30:00',21,620.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(140,'SRV Travels','MADURAI','SALEM','11:00:00','20:30:00',21,530.00,false,NULL,50.00,false,NULL,50.00);
+insert into runs_on values(137,'2021-04-16',21);
+insert into runs_on values(138,'2021-04-16',21);
+insert into runs_on values(139,'2021-04-16',21);
+insert into runs_on values(140,'2021-04-16',21);
+insert into runs_on values(137,'2021-04-18',21);
+insert into runs_on values(138,'2021-04-18',21);
+insert into runs_on values(139,'2021-04-18',21);
+insert into runs_on values(140,'2021-04-18',21);
+insert into runs_on values(137,'2021-04-20',21);
+insert into runs_on values(138,'2021-04-20',21);
+insert into runs_on values(139,'2021-04-20',21);
+insert into runs_on values(140,'2021-04-20',21);
+insert into runs_on values(137,'2021-04-22',21);
+insert into runs_on values(138,'2021-04-22',21);
+insert into runs_on values(139,'2021-04-22',21);
+insert into runs_on values(140,'2021-04-22',21);
+
+#4. Non AC Sleeper
+
+insert into bus values(141,'Parvin Travels','MADURAI','SALEM','01:00:00','09:30:00',12,550.00,false,NULL,50.00,true,100.00,NULL);
+insert into bus values(142,'Travel Empire','MADURAI','SALEM','00:30:00','08:30:00',12,600.00,false,NULL,50.00,true,110.00,NULL);
+insert into bus values(143,'KPN Travel','MADURAI','SALEM','01:30:00','10:30:00',12,620.00,false,NULL,50.00,true,120.00,NULL);
+insert into bus values(144,'SRV Travels','MADURAI','SALEM','02:00:00','11:30:00',12,530.00,false,NULL,50.00,true,115.00,NULL);
+insert into runs_on values(141,'2021-04-16',12);
+insert into runs_on values(142,'2021-04-16',12);
+insert into runs_on values(143,'2021-04-16',12);
+insert into runs_on values(144,'2021-04-16',12);
+insert into runs_on values(141,'2021-04-18',12);
+insert into runs_on values(142,'2021-04-18',12);
+insert into runs_on values(143,'2021-04-18',12);
+insert into runs_on values(144,'2021-04-18',12);
+insert into runs_on values(141,'2021-04-20',12);
+insert into runs_on values(142,'2021-04-20',12);
+insert into runs_on values(143,'2021-04-20',12);
+insert into runs_on values(144,'2021-04-20',12);
+insert into runs_on values(141,'2021-04-22',12);
+insert into runs_on values(142,'2021-04-22',12);
+insert into runs_on values(143,'2021-04-22',12);
+insert into runs_on values(144,'2021-04-22',12);
+
+
+
+#Madurai to Salem (Timing : 12 pm to 12 am)
+
+#1. AC Seater
+
+insert into bus values(145,'Parvin Travels','MADURAI','SALEM','13:00:00','21:30:00',21,550.00,true,100.00,NULL,false,NULL,50.00);
+insert into bus values(146,'Travel Empire','MADURAI','SALEM','14:00:00','22:00:00',21,600.00,true,110.00,NULL,false,NULL,50.00);
+insert into bus values(147,'KPN Travel','MADURAI','SALEM','15:00:00','23:00:00',21,620.00,true,120.00,NULL,false,NULL,50.00);
+insert into bus values(148,'SRV Travels','MADURAI','SALEM','15:30:00','23:30:00',21,530.00,true,115.00,NULL,false,NULL,50.00);
+insert into runs_on values(145,'2021-04-16',21);
+insert into runs_on values(146,'2021-04-16',21);
+insert into runs_on values(147,'2021-04-16',21);
+insert into runs_on values(148,'2021-04-16',21);
+insert into runs_on values(145,'2021-04-18',21);
+insert into runs_on values(146,'2021-04-18',21);
+insert into runs_on values(147,'2021-04-18',21);
+insert into runs_on values(148,'2021-04-18',21);
+insert into runs_on values(145,'2021-04-20',21);
+insert into runs_on values(146,'2021-04-20',21);
+insert into runs_on values(147,'2021-04-20',21);
+insert into runs_on values(148,'2021-04-20',21);
+insert into runs_on values(145,'2021-04-22',21);
+insert into runs_on values(146,'2021-04-22',21);
+insert into runs_on values(147,'2021-04-22',21);
+insert into runs_on values(148,'2021-04-22',21);
+
+#2. AC Sleeper
+
+insert into bus values(149,'Parvin Travels','MADURAI','SALEM','20:00:00','04:30:00',12,550.00,true,100.00,NULL,true,100.00,NULL);
+insert into bus values(150,'Travel Empire','MADURAI','SALEM','21:30:00','05:30:00',12,600.00,true,110.00,NULL,true,110.00,NULL);
+insert into bus values(151,'KPN Travel','MADURAI','SALEM','22:30:00','06:30:00',12,620.00,true,120.00,NULL,true,120.00,NULL);
+insert into bus values(152,'SRV Travels','MADURAI','SALEM','23:00:00','07:30:00',12,530.00,true,115.00,NULL,true,115.00,NULL);
+insert into runs_on values(149,'2021-04-16',12);
+insert into runs_on values(150,'2021-04-16',12);
+insert into runs_on values(151,'2021-04-16',12);
+insert into runs_on values(152,'2021-04-16',12);
+insert into runs_on values(149,'2021-04-18',12);
+insert into runs_on values(150,'2021-04-18',12);
+insert into runs_on values(151,'2021-04-18',12);
+insert into runs_on values(152,'2021-04-18',12);
+insert into runs_on values(149,'2021-04-20',12);
+insert into runs_on values(150,'2021-04-20',12);
+insert into runs_on values(151,'2021-04-20',12);
+insert into runs_on values(152,'2021-04-20',12);
+insert into runs_on values(149,'2021-04-22',12);
+insert into runs_on values(150,'2021-04-22',12);
+insert into runs_on values(151,'2021-04-22',12);
+insert into runs_on values(152,'2021-04-22',12);
+
+#3. Non AC Seater 
+
+insert into bus values(153,'Parvin Travels','MADURAI','SALEM','13:00:00','21:30:00',21,550.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(154,'Travel Empire','MADURAI','SALEM','14:00:00','22:00:00',21,600.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(155,'KPN Travel','MADURAI','SALEM','15:00:00','23:00:00',21,620.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(156,'SRV Travels','MADURAI','SALEM','15:30:00','23:30:00',21,530.00,false,NULL,50.00,false,NULL,50.00);
+insert into runs_on values(153,'2021-04-16',21);
+insert into runs_on values(154,'2021-04-16',21);
+insert into runs_on values(155,'2021-04-16',21);
+insert into runs_on values(156,'2021-04-16',21);
+insert into runs_on values(153,'2021-04-18',21);
+insert into runs_on values(154,'2021-04-18',21);
+insert into runs_on values(155,'2021-04-18',21);
+insert into runs_on values(156,'2021-04-18',21);
+insert into runs_on values(153,'2021-04-20',21);
+insert into runs_on values(154,'2021-04-20',21);
+insert into runs_on values(155,'2021-04-20',21);
+insert into runs_on values(156,'2021-04-20',21);
+insert into runs_on values(153,'2021-04-22',21);
+insert into runs_on values(154,'2021-04-22',21);
+insert into runs_on values(155,'2021-04-22',21);
+insert into runs_on values(156,'2021-04-22',21);
+
+#4. Non AC Sleeper
+
+insert into bus values(157,'Parvin Travels','MADURAI','SALEM','20:00:00','04:30:00',12,550.00,false,NULL,50.00,true,100.00,NULL);
+insert into bus values(158,'Travel Empire','MADURAI','SALEM','21:30:00','05:30:00',12,600.00,false,NULL,50.00,true,110.00,NULL);
+insert into bus values(159,'KPN Travel','MADURAI','SALEM','22:30:00','06:30:00',12,620.00,false,NULL,50.00,true,120.00,NULL);
+insert into bus values(160,'SRV Travels','MADURAI','SALEM','23:00:00','07:30:00',12,530.00,false,NULL,50.00,true,115.00,NULL);
+insert into runs_on values(157,'2021-04-16',12);
+insert into runs_on values(158,'2021-04-16',12);
+insert into runs_on values(159,'2021-04-16',12);
+insert into runs_on values(160,'2021-04-16',12);
+insert into runs_on values(157,'2021-04-18',12);
+insert into runs_on values(158,'2021-04-18',12);
+insert into runs_on values(159,'2021-04-18',12);
+insert into runs_on values(160,'2021-04-18',12);
+insert into runs_on values(157,'2021-04-20',12);
+insert into runs_on values(158,'2021-04-20',12);
+insert into runs_on values(159,'2021-04-20',12);
+insert into runs_on values(160,'2021-04-20',12);
+insert into runs_on values(157,'2021-04-22',12);
+insert into runs_on values(158,'2021-04-22',12);
+insert into runs_on values(159,'2021-04-22',12);
+insert into runs_on values(160,'2021-04-22',12);
+
+
+#Salem to madurai 12am to 12pm
+
+#1. AC Seater
+
+insert into bus values(161,'Parvin Travels','SALEM','MADURAI','08:00:00','17:30:00',21,550.00,true,100.00,NULL,false,NULL,50.00);
+insert into bus values(162,'Travel Empire','SALEM','MADURAI','09:00:00','17:00:00',21,600.00,true,110.00,NULL,false,NULL,50.00);
+insert into bus values(163,'KPN Travel','SALEM','MADURAI','10:00:00','19:30:00',21,620.00,true,120.00,NULL,false,NULL,50.00);
+insert into bus values(164,'SRV Travels','SALEM','MADURAI','11:00:00','20:30:00',21,530.00,true,115.00,NULL,false,NULL,50.00);
+insert into runs_on values(161,'2021-04-17',21);
+insert into runs_on values(162,'2021-04-17',21);
+insert into runs_on values(163,'2021-04-17',21);
+insert into runs_on values(164,'2021-04-17',21);
+insert into runs_on values(161,'2021-04-19',21);
+insert into runs_on values(162,'2021-04-19',21);
+insert into runs_on values(163,'2021-04-19',21);
+insert into runs_on values(164,'2021-04-19',21);
+insert into runs_on values(161,'2021-04-21',21);
+insert into runs_on values(162,'2021-04-21',21);
+insert into runs_on values(163,'2021-04-21',21);
+insert into runs_on values(164,'2021-04-21',21);
+
+#2. AC Sleeper
+
+insert into bus values(165,'Parvin Travels','SALEM','MADURAI','01:00:00','09:30:00',12,550.00,true,100.00,NULL,true,100.00,NULL);
+insert into bus values(166,'Travel Empire','SALEM','MADURAI','00:30:00','08:30:00',12,600.00,true,110.00,NULL,true,110.00,NULL);
+insert into bus values(167,'KPN Travel','SALEM','MADURAI','01:30:00','10:30:00',12,620.00,true,120.00,NULL,true,120.00,NULL);
+insert into bus values(168,'SRV Travels','SALEM','MADURAI','02:00:00','11:30:00',12,530.00,true,115.00,NULL,true,115.00,NULL);
+insert into runs_on values(165,'2021-04-17',12);
+insert into runs_on values(166,'2021-04-17',12);
+insert into runs_on values(167,'2021-04-17',12);
+insert into runs_on values(168,'2021-04-17',12);
+insert into runs_on values(165,'2021-04-19',12);
+insert into runs_on values(166,'2021-04-19',12);
+insert into runs_on values(167,'2021-04-19',12);
+insert into runs_on values(168,'2021-04-19',12);
+insert into runs_on values(165,'2021-04-21',12);
+insert into runs_on values(166,'2021-04-21',12);
+insert into runs_on values(167,'2021-04-21',12);
+insert into runs_on values(168,'2021-04-21',12);
+
+#3. Non AC Seater 
+
+insert into bus values(169,'Parvin Travels','SALEM','MADURAI','08:00:00','17:30:00',21,550.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(170,'Travel Empire','SALEM','MADURAI','09:00:00','17:00:00',21,600.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(171,'KPN Travel','SALEM','MADURAI','10:00:00','19:30:00',21,620.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(172,'SRV Travels','SALEM','MADURAI','11:00:00','20:30:00',21,530.00,false,NULL,50.00,false,NULL,50.00);
+insert into runs_on values(169,'2021-04-17',21);
+insert into runs_on values(170,'2021-04-17',21);
+insert into runs_on values(171,'2021-04-17',21);
+insert into runs_on values(172,'2021-04-17',21);
+insert into runs_on values(169,'2021-04-19',21);
+insert into runs_on values(170,'2021-04-19',21);
+insert into runs_on values(171,'2021-04-19',21);
+insert into runs_on values(172,'2021-04-19',21);
+insert into runs_on values(169,'2021-04-21',21);
+insert into runs_on values(170,'2021-04-21',21);
+insert into runs_on values(171,'2021-04-21',21);
+insert into runs_on values(172,'2021-04-21',21);
+
+
+#4. Non AC Sleeper
+
+insert into bus values(173,'Parvin Travels','SALEM','MADURAI','01:00:00','09:30:00',12,550.00,false,NULL,50.00,true,100.00,NULL);
+insert into bus values(174,'Travel Empire','SALEM','MADURAI','00:30:00','08:30:00',12,600.00,false,NULL,50.00,true,110.00,NULL);
+insert into bus values(175,'KPN Travel','SALEM','MADURAI','01:30:00','10:30:00',12,620.00,false,NULL,50.00,true,120.00,NULL);
+insert into bus values(176,'SRV Travels','SALEM','MADURAI','02:00:00','11:30:00',12,530.00,false,NULL,50.00,true,115.00,NULL);
+insert into runs_on values(173,'2021-04-17',12);
+insert into runs_on values(174,'2021-04-17',12);
+insert into runs_on values(175,'2021-04-17',12);
+insert into runs_on values(176,'2021-04-17',12);
+insert into runs_on values(173,'2021-04-19',12);
+insert into runs_on values(174,'2021-04-19',12);
+insert into runs_on values(175,'2021-04-19',12);
+insert into runs_on values(176,'2021-04-19',12);
+insert into runs_on values(173,'2021-04-21',12);
+insert into runs_on values(174,'2021-04-21',12);
+insert into runs_on values(175,'2021-04-21',12);
+insert into runs_on values(176,'2021-04-21',12);
+
+#salem to madurai(Timing : 12 pm to 12 am)
+
+#1. AC Seater
+
+insert into bus values(177,'Parvin Travels','SALEM','MADURAI','13:00:00','21:30:00',21,550.00,true,100.00,NULL,false,NULL,50.00);
+insert into bus values(178,'Travel Empire','SALEM','MADURAI','14:00:00','22:00:00',21,600.00,true,110.00,NULL,false,NULL,50.00);
+insert into bus values(179,'KPN Travel','SALEM','MADURAI','15:00:00','23:00:00',21,620.00,true,120.00,NULL,false,NULL,50.00);
+insert into bus values(180,'SRV Travels','SALEM','MADURAI','15:30:00','23:30:00',21,530.00,true,115.00,NULL,false,NULL,50.00);
+insert into runs_on values(177,'2021-04-17',21);
+insert into runs_on values(178,'2021-04-17',21);
+insert into runs_on values(179,'2021-04-17',21);
+insert into runs_on values(180,'2021-04-17',21);
+insert into runs_on values(177,'2021-04-19',21);
+insert into runs_on values(178,'2021-04-19',21);
+insert into runs_on values(179,'2021-04-19',21);
+insert into runs_on values(180,'2021-04-19',21);
+insert into runs_on values(177,'2021-04-21',21);
+insert into runs_on values(178,'2021-04-21',21);
+insert into runs_on values(179,'2021-04-21',21);
+insert into runs_on values(180,'2021-04-21',21);
+
+
+#2. AC Sleeper
+
+insert into bus values(181,'Parvin Travels','SALEM','MADURAI','20:00:00','04:30:00',12,550.00,true,100.00,NULL,true,100.00,NULL);
+insert into bus values(182,'Travel Empire','SALEM','MADURAI','21:30:00','05:30:00',12,600.00,true,110.00,NULL,true,110.00,NULL);
+insert into bus values(183,'KPN Travel','SALEM','MADURAI','22:30:00','06:30:00',12,620.00,true,120.00,NULL,true,120.00,NULL);
+insert into bus values(184,'SRV Travels','SALEM','MADURAI','23:00:00','07:30:00',12,530.00,true,115.00,NULL,true,115.00,NULL);
+insert into runs_on values(181,'2021-04-17',12);
+insert into runs_on values(182,'2021-04-17',12);
+insert into runs_on values(183,'2021-04-17',12);
+insert into runs_on values(184,'2021-04-17',12);
+insert into runs_on values(181,'2021-04-19',12);
+insert into runs_on values(182,'2021-04-19',12);
+insert into runs_on values(183,'2021-04-19',12);
+insert into runs_on values(184,'2021-04-19',12);
+insert into runs_on values(181,'2021-04-21',12);
+insert into runs_on values(182,'2021-04-21',12);
+insert into runs_on values(183,'2021-04-21',12);
+insert into runs_on values(184,'2021-04-21',12);
+
+
+#3. Non AC Seater 
+
+insert into bus values(185,'Parvin Travels','SALEM','MADURAI','13:00:00','21:30:00',21,550.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(186,'Travel Empire','SALEM','MADURAI','14:00:00','22:00:00',21,600.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(187,'KPN Travel','SALEM','MADURAI','15:00:00','23:00:00',21,620.00,false,NULL,50.00,false,NULL,50.00);
+insert into bus values(188,'SRV Travels','SALEM','MADURAI','15:30:00','23:30:00',21,530.00,false,NULL,50.00,false,NULL,50.00);
+insert into runs_on values(185,'2021-04-17',21);
+insert into runs_on values(186,'2021-04-17',21);
+insert into runs_on values(187,'2021-04-17',21);
+insert into runs_on values(188,'2021-04-17',21);
+insert into runs_on values(185,'2021-04-19',21);
+insert into runs_on values(186,'2021-04-19',21);
+insert into runs_on values(187,'2021-04-19',21);
+insert into runs_on values(188,'2021-04-19',21);
+insert into runs_on values(185,'2021-04-21',21);
+insert into runs_on values(186,'2021-04-21',21);
+insert into runs_on values(187,'2021-04-21',21);
+insert into runs_on values(188,'2021-04-21',21);
+insert into runs_on values(185,'2021-04-22',21);
+
+
+#4. Non AC Sleeper
+
+insert into bus values(189,'Parvin Travels','SALEM','MADURAI','20:00:00','04:30:00',12,550.00,false,NULL,50.00,true,100.00,NULL);
+insert into bus values(190,'Travel Empire','SALEM','MADURAI','21:30:00','05:30:00',12,600.00,false,NULL,50.00,true,110.00,NULL);
+insert into bus values(191,'KPN Travel','SALEM','MADURAI','22:30:00','06:30:00',12,620.00,false,NULL,50.00,true,120.00,NULL);
+insert into bus values(192,'SRV Travels','SALEM','MADURAI','23:00:00','07:30:00',12,530.00,false,NULL,50.00,true,115.00,NULL);
+insert into runs_on values(189,'2021-04-17',12);
+insert into runs_on values(190,'2021-04-17',12);
+insert into runs_on values(191,'2021-04-17',12);
+insert into runs_on values(192,'2021-04-17',12);
+insert into runs_on values(189,'2021-04-19',12);
+insert into runs_on values(190,'2021-04-19',12);
+insert into runs_on values(191,'2021-04-19',12);
+insert into runs_on values(192,'2021-04-19',12);
+insert into runs_on values(189,'2021-04-21',12);
+insert into runs_on values(190,'2021-04-21',12);
+insert into runs_on values(191,'2021-04-21',12);
+insert into runs_on values(192,'2021-04-21',12);
+
+delimiter $$
+CREATE TRIGGER completed AFTER INSERT ON booking FOR EACH ROW
+
+ BEGIN
+	insert into trigger_test values("Booking done successfully");
+    end $$
+delimiter ;
+
+delimiter $$
+CREATE TRIGGER cancelled AFTER delete ON booking FOR EACH ROW
+ BEGIN
+	insert into trigger_test values("Booking cancelled successfully");
+    end $$
+delimiter ;
+
