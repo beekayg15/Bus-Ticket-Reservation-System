@@ -35,12 +35,12 @@ public class Selection {
             String driverName = "com.mysql.jdbc.Driver";
             Class.forName(driverName); // here is the ClassNotFoundException
 
-            String serverName = "localhost:3250";
+            String serverName = "localhost:3306";
             String mydatabase = "BTRS";
             String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
 
             String username = "root";
-            String password = "Bh@280801";
+            String password = "barath15";
             Connection connection = DriverManager.getConnection(url, username, password);
 
             String command1 = "select * from bus natural join runs_on where src = ? and dest = ? and DATE_FORMAT(days, \"%d/%m/%Y\") = ?";

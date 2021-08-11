@@ -22,12 +22,12 @@ public class view_booking {
             String driverName = "com.mysql.jdbc.Driver";
             Class.forName(driverName); // here is the ClassNotFoundException
 
-            String serverName = "localhost:3250";
+            String serverName = "localhost:3306";
             String mydatabase = "BTRS";
             String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
 
             String username = "root";
-            String password = "Bh@280801";
+            String password = "barath15";
             Connection connection = DriverManager.getConnection(url, username, password);
             
             String command1 = "select * from booking natural join bus natural join customer where customer_id = ?";
@@ -70,12 +70,12 @@ public class view_booking {
             String driverName = "com.mysql.jdbc.Driver";
             Class.forName(driverName); // here is the ClassNotFoundException
 
-            String serverName = "localhost:3250";
+            String serverName = "localhost:3306";
             String mydatabase = "BTRS";
             String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
 
             String username = "root";
-            String password = "Bh@280801";
+            String password = "barath15";
             Connection connection = DriverManager.getConnection(url, username, password);
             
             String command1 = "select * from booking natural join ticket natural join passenger where booking_id = ?";
@@ -118,12 +118,12 @@ public class view_booking {
             String driverName = "com.mysql.jdbc.Driver";
             Class.forName(driverName); // here is the ClassNotFoundException
 
-            String serverName = "localhost:3250";
+            String serverName = "localhost:3306";
             String mydatabase = "BTRS";
             String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
 
             String username = "root";
-            String password = "Bh@280801";
+            String password = "barath15";
             Connection connection = DriverManager.getConnection(url, username, password);
             
             String command1 = "delete from ticket where ticket_id=?";
@@ -185,12 +185,12 @@ public class view_booking {
             String driverName = "com.mysql.jdbc.Driver";
             Class.forName(driverName); // here is the ClassNotFoundException
 
-            String serverName = "localhost:3250";
+            String serverName = "localhost:3306";
             String mydatabase = "BTRS";
             String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
 
             String username = "root";
-            String password = "Bh@280801";
+            String password = "barath15";
             Connection connection = DriverManager.getConnection(url, username, password);
             
             String date="";

@@ -24,12 +24,12 @@ public class Msignup {
             String driverName = "com.mysql.jdbc.Driver";
             Class.forName(driverName); // here is the ClassNotFoundException
 
-            String serverName = "localhost:3250";
+            String serverName = "localhost:3306";
             String mydatabase = "BTRS";
             String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
 
             String username = "root";
-            String password = "Bh@280801";
+            String password = "barath15";
             Connection connection = DriverManager.getConnection(url, username, password);
 
             String command1 = "select max(customer_id) from customer";
@@ -167,12 +167,12 @@ public class Msignup {
             String driverName = "com.mysql.cj.jdbc.Driver";
             Class.forName(driverName); // here is the ClassNotFoundException
 
-            String serverName = "localhost:3250";
+            String serverName = "localhost:3306";
             String mydatabase = "BTRS";
             String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
 
             String username = "root";
-            String password = "Bh@280801";
+            String password = "barath15";
             Connection connection = DriverManager.getConnection(url, username, password);
 
             String command1 = "select * from customer where email = ?";
