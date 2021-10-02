@@ -18,5 +18,6 @@ Simple desktop application developed using Java and concepts of OOPs, DBMS and s
 - <a href="https://github.com/Hrithik1702">Hrithik B </a>
 - <a href="https://github.com/Bhooshaan">Bhooshaan A</a>
 - <a href="https://github.com/TarunVisva07">Tarun Visva R</a>
+- <a href="https://github.com/dharundb">Dharun Bharathi S</a>
 - <a href="https://github.com/BarathKumarBK-15">Barath Kumar G</a>
 
